@@ -1,6 +1,7 @@
 package com.richardaeld.baby_event_tracker.event;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -23,11 +24,10 @@ public class EventRepository {
                 .findFirst();
     }
 
-    void create (Event event) {
+    void create (@Valid Event event) {
         events.add(event);
     }
-
-    void update (Event event, Integer event_id) {
+    void update (@ Valid Event event, Integer event_id) {
         Optional<Event> existingEvent = findById(event_id);
         if (existingEvent.isPresent()) {
             events.set(events.indexOf(existingEvent.get()), event);
