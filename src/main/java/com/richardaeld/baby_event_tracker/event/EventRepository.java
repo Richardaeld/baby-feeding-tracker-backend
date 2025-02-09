@@ -37,8 +37,11 @@ public class EventRepository {
     }
 
     public void create (Event event) {
-        var created = jdbcClient.sql("INSERT INTO EVENT (baby_id, event_id, event_type, start_on, end_on) VALUES (:baby_id, :event_id, :event_type, :start_on, :end_on)")
-                .params(event)
+        var created = jdbcClient.sql("INSERT INTO EVENT (baby_id, event_type, start_on, end_on) VALUES (:baby_id, :event_type, :start_on, :end_on)")
+                .params("baby_id", event.baby_id())
+                .params("event_type", event.event_type())
+                .params("start_on", event.start_on())
+                .params("end_on", event.end_on())
                 .update();
         Assert.state(created == 1, "Failed to create event " + event.event_id());
     }
