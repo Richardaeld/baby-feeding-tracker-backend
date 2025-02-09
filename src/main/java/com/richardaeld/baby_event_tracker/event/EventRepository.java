@@ -39,14 +39,18 @@ public class EventRepository {
                 .param("start_on", event.start_on())
                 .param("end_on", event.end_on())
                 .update();
-        Assert.state(created == 1, "Failed to create event " + event.baby_id());
+        Assert.state(created == 1, "Failed to create event " + event.event_type().name());
     }
 
     public void update(Event event, Integer event_id) {
-        var updated = jdbcClient.sql("UPDATE EVENT SET baby_id = :baby_id,  = :event_id, event_type = :event_type, start_on = :start_on, end_on = :end_on WHERE event_id = :event_id")
-                .params(event)
+        var updated = jdbcClient.sql("UPDATE EVENT SET baby_id = :baby_id, event_id = :event_id, event_type = :event_type::event_type_enum, start_on = :start_on, end_on = :end_on WHERE event_id = :event_id")
+                .param("event_id", event.event_id())
+                .param("baby_id", event.baby_id())
+                .param("event_type", event.event_type().name())
+                .param("start_on", event.start_on())
+                .param("end_on", event.end_on())
                 .update();
-        Assert.state(updated == 1, "Failed to update event " + event.baby_id());
+        Assert.state(updated == 1, "Failed to update event " + event.event_id());
     }
 
     public void delete(Integer event_id) {
