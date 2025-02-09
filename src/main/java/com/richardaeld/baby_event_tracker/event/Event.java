@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
 public record Event(
+        Integer event_id,
         @NotNull
         @Positive
         Integer baby_id,
