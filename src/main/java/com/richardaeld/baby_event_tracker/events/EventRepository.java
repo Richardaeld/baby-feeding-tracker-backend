@@ -1,4 +1,4 @@
-package com.richardaeld.baby_event_tracker.event;
+package com.richardaeld.baby_event_tracker.events;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,10 +34,10 @@ public class EventRepository {
     public void create (Event event) {
 //        System.out.println("Event created: " + event.event_id() + " " + event.baby_id() + " " + event.event_type() + " " + event.start_on() + " " + event.end_on());
         var created = jdbcClient.sql("INSERT INTO EVENT (baby_id, event_type, start_on, end_on) VALUES (:baby_id, :event_type::event_type_enum, :start_on, :end_on)")
-                .param("baby_id", event.baby_id())
+                .param("baby_id",    event.baby_id())
                 .param("event_type", event.event_type().name())
-                .param("start_on", event.start_on())
-                .param("end_on", event.end_on())
+                .param("start_on",   event.start_on())
+                .param("end_on",     event.end_on())
                 .update();
         Assert.state(created == 1, "Failed to create event " + event.event_type().name());
     }

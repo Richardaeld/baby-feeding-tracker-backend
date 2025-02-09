@@ -1,4 +1,4 @@
-package com.richardaeld.baby_event_tracker.event;
+package com.richardaeld.baby_event_tracker.events;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
