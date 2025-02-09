@@ -2,19 +2,18 @@ package com.richardaeld.baby_event_tracker.event;
 
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDateTime;
 
 public record Event(
-        @NotEmpty
+        @NotNull
         @Positive
         Integer baby_id,
-        @NotEmpty
-        @Positive
-        Integer event_id,
-        @NotEmpty
+        @NotNull
         EventType event_type,
+        @NotNull
         LocalDateTime start_on,
         LocalDateTime end_on
 ) {
