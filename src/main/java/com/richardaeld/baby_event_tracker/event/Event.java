@@ -8,5 +8,10 @@ public record Event(
         EventType event_type,
         LocalDateTime start_on,
         LocalDateTime end_on
-        ) {
+) {
+        public Event {
+                if (!end_on.isAfter(start_on)) {
+                        threw new IllegalArgumentException("End time must be after start time");
+                }
+        }
 }
