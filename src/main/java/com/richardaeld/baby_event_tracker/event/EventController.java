@@ -1,12 +1,11 @@
 package com.richardaeld.baby_event_tracker.event;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/events")
@@ -35,7 +34,7 @@ public class EventController {
     //POST
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    void create (@RequestBody Event event) {
+    void create (@Valid @RequestBody Event event) {
         eventRepository.create(event);
     }
 
