@@ -142,8 +142,8 @@ CREATE TYPE feeding_type_enum AS ENUM ('BREAST', 'FORMULA', 'SOLID');
 CREATE TABLE IF NOT EXISTS FEEDING (
     event_id INT NOT NULL,
     note_id INT NULL,
-    type feeding_type_enum NOT NULL,
-    amount VARCHAR(50) NULL,
+    feeding_type feeding_type_enum NOT NULL,
+    amount FLOAT NULL,
     PRIMARY KEY (event_id),
     FOREIGN KEY (event_id) REFERENCES EVENT(event_id),
     FOREIGN KEY (note_id) REFERENCES NOTE(note_id)
