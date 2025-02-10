@@ -20,6 +20,7 @@ public class EventController {
     // ===========================
     // SELECT
     //============================
+    @CrossOrigin(origins = "http://localhost:5174")
     @GetMapping("")
     List<Event> findAll() {
         return eventRepository.findAll();
