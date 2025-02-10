@@ -17,11 +17,23 @@ public class EventController {
         this.eventRepository = eventRepository;
     }
 
+    // ===========================
+    // SELECT
+    //============================
     @GetMapping("")
     List<Event> findAll() {
         return eventRepository.findAll();
     }
 
+    @GetMapping("/feeding")
+    List<Feeding> findAllFeeding() { return eventRepository.findAllFeeding(); }
+
+    @GetMapping("/tummy_time")
+    List<TummyTime> findAllTummyTime() { return eventRepository.findAllTummyTime(); };
+
+    // ===========================
+    // SELECT 1
+    //============================
     @GetMapping("/{event_id}")
     Event findById(@PathVariable Integer event_id) {
         Optional<Event> event = eventRepository.findById(event_id);
@@ -31,12 +43,24 @@ public class EventController {
         return event.get();
     }
 
-    //POST
+    // ===========================
+    // POST
+    //============================
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     void create (@Valid @RequestBody Event event) {
         eventRepository.create(event);
     }
+
+    @PostMapping("/feeding")
+    @ResponseStatus(HttpStatus.CREATED)
+    void create (@Valid @RequestBody Feeding feeding) { eventRepository.create(feeding); }
+
+    @PostMapping("/tummy_time")
+    @ResponseStatus(HttpStatus.CREATED)
+    void createTummyTime(@Valid @RequestBody TummyTime tummyTime) {eventRepository.create(tummyTime);}
+
+
 
     //PUT
     @PutMapping("/{event_id}")
