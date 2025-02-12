@@ -118,7 +118,7 @@ CREATE TYPE diaper_type_enum AS ENUM ('PEE', 'POOP', 'BLOWOUT');
 CREATE TABLE IF NOT EXISTS DIAPER (
     event_id INT NOT NULL,
     note_id INT NULL,
-    type diaper_type_enum NOT NULL,
+--    diaper_type diaper_type_enum NOT NULL,
     color VARCHAR(50) NULL,
     PRIMARY KEY (event_id),
     FOREIGN KEY (event_id) REFERENCES EVENT(event_id),
@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS MEDICATION (
 CREATE TABLE IF NOT EXISTS NIGHT_CHECK (
     event_id INT NOT NULL,
     note_id INT NULL,
-    temperature DECIMAL(5,2) NOT NULL,
+--    temperature DECIMAL(5,2) NOT NULL,
     PRIMARY KEY (event_id),
     FOREIGN KEY (event_id) REFERENCES EVENT(event_id),
     FOREIGN KEY (note_id) REFERENCES NOTE(note_id)
@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS NIGHT_CHECK (
 CREATE TABLE IF NOT EXISTS PUMPING (
     event_id INT NOT NULL,
     note_id INT NULL,
-    amount DECIMAL(5,2) NOT NULL,
+--    amount DECIMAL(5,2) NOT NULL,
     PRIMARY KEY (event_id),
     FOREIGN KEY (event_id) REFERENCES EVENT(event_id),
     FOREIGN KEY (note_id) REFERENCES NOTE(note_id)
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS PUMPING (
 CREATE TABLE IF NOT EXISTS TEMPERATURE (
     event_id INT NOT NULL,
     note_id INT NULL,
-    temperature DECIMAL(5,2) NOT NULL,
+--    temperature DECIMAL(5,2) NOT NULL,
     PRIMARY KEY (event_id),
     FOREIGN KEY (event_id) REFERENCES EVENT(event_id),
     FOREIGN KEY (note_id) REFERENCES NOTE(note_id)
