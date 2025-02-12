@@ -81,7 +81,31 @@ INSERT INTO EVENT
     // ===========================
     // FEEDING
     //============================
-    public List<Feeding> findAllFeeding() {
+//    public List<Feeding> findAllFeeding() {
+//        return jdbcClient.sql("""
+//SELECT
+//    e.event_id,
+//    e.baby_id,
+//    e.event_type,
+//    e.start_on,
+//    e.end_on,
+//    f.note_id,
+//    f.feeding_type,
+//    f.amount,
+//    n.note
+//FROM FEEDING f
+//INNER JOIN EVENT e
+//    ON f.event_id = e.event_id
+//LEFT JOIN NOTE n
+//    ON f.note_id = n.note_id
+//    """)
+//                .query(Feeding.class)
+//                .list();
+//    }
+
+    public List<FullEvent> findAllFeeding() {
+        //    f.note_id,
+
         return jdbcClient.sql("""
 SELECT 
     e.event_id,
@@ -89,29 +113,83 @@ SELECT
     e.event_type,
     e.start_on,
     e.end_on,
-    f.note_id,
     f.feeding_type,
     f.amount,
-    n.note
-FROM FEEDING f
-INNER JOIN EVENT e
-    ON f.event_id = e.event_id
+    n.note,
+    ba.first_name,
+    ba.last_name,
+    ba.gender,
+    ba.birthday
+    
+FROM EVENT e
+INNER JOIN BABY ba
+    ON e.baby_id = ba.baby_id
+LEFT JOIN FEEDING f
+    ON e.event_id = f.event_id
+LEFT JOIN BATH b
+    ON e.event_id = b.event_id
+LEFT JOIN DIAPER d
+    ON e.event_id = d.event_id
+LEFT JOIN GROWTH g
+    ON e.event_id = g.event_id
+LEFT JOIN MEDICATION m
+    ON e.event_id = m.event_id
+LEFT JOIN NIGHT_CHECK nc
+    ON e.event_id = nc.event_id
+LEFT JOIN PUMPING p
+    ON e.event_id = p.event_id
+LEFT JOIN TEMPERATURE t
+    ON e.event_id = t.event_id
+LEFT JOIN TUMMY_TIME tt
+    ON e.event_id = tt.event_id
 LEFT JOIN NOTE n
     ON f.note_id = n.note_id
+ORDER BY e.start_on DESC 
+   
     """)
-                .query(Feeding.class)
+                .query(FullEvent.class)
                 .list();
     }
-    public void create (Feeding feeding) {
+
+//    ===========================
+//    OG
+//    ===========================
+//    public void create (Feeding feeding) {
+//        System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
+//        System.out.println(feeding);
+//        System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
+////        Create parent event
+//        Event event = new Event(feeding.event_id(), feeding.baby_id(), feeding.event_type(), feeding.start_on(), feeding.end_on());
+//        create(event);
+////        Create Note
+//        if (feeding.note() != null && !feeding.note().trim().isEmpty()) {
+//            Note note = new Note(feeding.note_id(), feeding.note());
+//            create(note);
+//        }
+////        Create Feeding Event
+//        var created = jdbcClient.sql("""
+//INSERT INTO FEEDING
+//(event_id, note_id, feeding_type, amount) VALUES
+//(:event_id, :note_id, :feeding_type::feeding_type_enum, :amount)
+//        """)
+//                .param("event_id", feeding.event_id())
+//                .param("note_id",  feeding.note_id())
+//                .param("feeding_type", feeding.feeding_type().name())
+//                .param("amount", feeding.amount())
+//                .update();
+//        Assert.state(created == 1, "Failed to create Feeding Event");
+//    }
+
+    public void create (FullEvent feeding) {
         System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
         System.out.println(feeding);
         System.out.println("-----------------------------------------------------------------------------------------------------------------------------");
 //        Create parent event
-        Event event = new Event(feeding.event_id(), feeding.baby_id(), feeding.event_type(), feeding.start_on(), feeding.end_on());
+        Event event = new Event(feeding.event_id, feeding.baby_id, feeding.event_type, feeding.start_on, feeding.end_on);
         create(event);
 //        Create Note
-        if (feeding.note() != null && !feeding.note().trim().isEmpty()) {
-            Note note = new Note(feeding.note_id(), feeding.note());
+        if (feeding.note != null && !feeding.note.trim().isEmpty()) {
+            Note note = new Note(feeding.note_id, feeding.note);
             create(note);
         }
 //        Create Feeding Event
@@ -120,13 +198,14 @@ INSERT INTO FEEDING
 (event_id, note_id, feeding_type, amount) VALUES 
 (:event_id, :note_id, :feeding_type::feeding_type_enum, :amount)
         """)
-                .param("event_id", feeding.event_id())
-                .param("note_id",  feeding.note_id())
-                .param("feeding_type", feeding.feeding_type().name())
-                .param("amount", feeding.amount())
+                .param("event_id", feeding.event_id)
+                .param("note_id",  feeding.note_id)
+                .param("feeding_type", feeding.feeding_type.name())
+                .param("amount", feeding.amount)
                 .update();
         Assert.state(created == 1, "Failed to create Feeding Event");
     }
+
 
     // ===========================
     // GROWTH
