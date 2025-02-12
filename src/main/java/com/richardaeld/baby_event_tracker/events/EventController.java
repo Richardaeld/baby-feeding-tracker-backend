@@ -27,7 +27,7 @@ public class EventController {
     }
 
     @GetMapping("/feeding")
-    List<Feeding> findAllFeeding() { return eventRepository.findAllFeeding(); }
+    List<FullEvent> findAllFeeding() { return eventRepository.findAllFeeding(); }
 
     @GetMapping("/tummy_time")
     List<TummyTime> findAllTummyTime() { return eventRepository.findAllTummyTime(); };
@@ -55,7 +55,7 @@ public class EventController {
 
     @PostMapping("/feeding")
     @ResponseStatus(HttpStatus.CREATED)
-    void create (@Valid @RequestBody Feeding feeding) { eventRepository.create(feeding); }
+    void create (@Valid @RequestBody FullEvent feeding) { eventRepository.create(feeding); }
 
     @PostMapping("/tummy_time")
     @ResponseStatus(HttpStatus.CREATED)
